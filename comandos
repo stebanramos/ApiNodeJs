@@ -1,0 +1,3 @@
+npx jest --init install jest
+npm install comando para instalar dependencias
+npm install express morgan
