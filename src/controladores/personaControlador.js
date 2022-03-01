@@ -3,11 +3,11 @@ const { personaSchema } = require('../modelos/personaModel.js');
 
 // MySql
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'rootpass',
-    database: 'node20_mysql'
-});
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'bab936b04b8d87',
+    password: '16f90428',
+    database: 'heroku_f077bfacb522f8f'
+  });
 
 //Agregar objetos persona a el contenedor
 exports.addPersona = function (req, callback) {
