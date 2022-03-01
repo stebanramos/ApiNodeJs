@@ -11,10 +11,10 @@ app.use(bodyParser.json());
 
 // MySql
 const connection = mysql.createPool({
-  host: 'us-cdbr-east-05.cleardb.net',
-  user: 'bab936b04b8d87',
-  password: '16f90428',
-  database: 'heroku_f077bfacb522f8f'
+  host: '34.136.35.120',
+  user: 'inventario',
+  password: 'inventario',
+  database: 'inventario'
 });
 
 // Route
