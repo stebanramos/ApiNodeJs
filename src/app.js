@@ -1,104 +1,98 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const methodOverride = require("method-override");
+const express = require('express');
 const mysql = require('mysql');
+
+const bodyParser = require('body-parser');
+
 const PORT = process.env.PORT || 3050;
+
 const app = express();
 
-//Configuracion
 app.use(bodyParser.json());
-app.use(methodOverride());
-
-//Definir el puerto por el cual vamos a escuchar
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // MySql
 const connection = mysql.createConnection({
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'bab936b04b8d87',
-    password: '16f90428',
-    database: 'heroku_f077bfacb522f8f'
+  host: 'us-cdbr-east-05.cleardb.net',
+  user: 'bab936b04b8d87',
+  password: '16f90428',
+  database: 'heroku_f077bfacb522f8f'
+});
+
+// Route
+app.get('/', (req, res) => {
+  res.send('Welcome to my API!');
+});
+
+// all customers
+app.get('/API/Users/FindAll', (req, res) => {
+  const sql = 'SELECT * FROM users';
+
+  connection.query(sql, (error, results) => {
+    if (error) throw error;
+    if (results.length > 0) {
+      res.json(results);
+    } else {
+      res.send('Not result');
+    }
   });
-
-//Definir el entutamiento de las solicitudes
-var controladorPersona = require('./controladores/personaControlador.js')
-var controladorProducto = require('./controladores/productoControlador.js')
-var router = express.Router();
-
-router.get('/', function(req, res){
-    res.send("hola mundo del servicio node js");
 });
 
-//Persona
-//Agregar persona http://localhost:3000/API/persona/AddPersona
-router.post('/API/persona/AddPersona', function(req, res){
-    controladorPersona.addPersona(req, function(data){
-        res.send(data);
-    });
+app.get('/API/Users/FindById/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = `SELECT * FROM users WHERE id = ${id}`;
+  connection.query(sql, (error, result) => {
+    if (error) throw error;
+
+    if (result.length > 0) {
+      res.json(result);
+    } else {
+      res.send('Not result');
+    }
+  });
 });
 
-//Actualizar persona http://localhost:3000/API/persona/UpdatePersona/23
-router.put('/API/persona/UpdatePersona/:id', function(req, res){
-    controladorPersona.updatePersona(req, function(data){
-        res.send(data);
-    });
+app.post('/API/Users/AddUsers', (req, res) => {
+  const sql = 'INSERT INTO users SET ?';
+
+  const customerObj = {
+    name: req.body.name,
+    apellido: req.body.apellido,
+    edad: req.body.edad,
+    createAt: req.body.createAt,
+    sexo: req.body.sexo,
+    isProfesional: req.body.isProfesional
+  };
+
+  connection.query(sql, customerObj, error => {
+    if (error) throw error;
+    res.send('User created!');
+  });
 });
 
-//Eliminar personas http://localhost:3000/API/persona/DeletePersona/23
-router.delete('/API/persona/DeletePersona/:id', function(req, res){
-    controladorPersona.deletePersona(req, function(data){
-        res.send(data);
-    });
+app.put('/API/Users/Update:id', (req, res) => {
+  const { id } = req.params;
+  const { nombre, apellido, edad, sexo, isProfesional } = req.body;
+  const sql = `UPDATE users SET nombre = '${nombre}', apellido='${apellido}', edad='${edad}', sexo='${sexo}', isProfesional='${isProfesional}' WHERE id =${id}`;
+
+  connection.query(sql, error => {
+    if (error) throw error;
+    res.send('User updated!');
+  });
 });
 
-//Buscar persona http://localhost:3000/API/persona/FindPersona/23
-router.get('/API/persona/FindPersona/:id', function(req, res){
-    controladorPersona.findByIdPersona(req, function(data){
-        res.send(data);
-    });
+app.delete('/API/Users/Delete:id', (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM users WHERE id= ${id}`;
+
+  connection.query(sql, error => {
+    if (error) throw error;
+    res.send('Delete user');
+  });
 });
 
-//Todas las personas http://localhost:3000/API/persona/FindAllPersona
-router.get('/API/persona/FindAllPersona', function(req, res){
-    controladorPersona.findByAllPersona(req, function(data){
-        res.send(data);
-    });
+// Check connect
+connection.connect(error => {
+  if (error) throw error;
+  console.log('Database server running!');
 });
 
-//Producto
-//Agregar producto http://localhost:3000/API/producto/AddProducto
-router.post('/API/producto/AddProducto', function(req, res){
-    controladorProducto.addProducto(req, function(data){
-        res.send(data);
-    });
-});
-
-//Actualizar producto http://localhost:3000/API/producto/UpdateProducto/23
-router.put('/API/producto/UpdateProducto/:id', function(req, res){
-    controladorProducto.updateProducto(req, function(data){
-        res.send(data);
-    });
-});
-
-//Eliminar producto http://localhost:3000/API/producto/DeleteProducto/23
-router.delete('/API/producto/DeleteProducto/:id', function(req, res){
-    controladorProducto.deleteProducto(req, function(data){
-        res.send(data);
-    });
-});
-
-//Buscar producto http://localhost:3000/API/producto/FindProducto/23
-router.get('/API/producto/FindProducto/:id', function(req, res){
-    controladorProducto.findByIdProducto(req, function(data){
-        res.send(data);
-    });
-});
-
-//Todas los productos http://localhost:3000/API/producto/FindAllProducto
-router.get('/API/producto/FindAllProducto', function(req, res){
-    controladorProducto.findByAllProducto(req, function(data){
-        res.send(data);
-    });
-});
-
-app.use(router);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

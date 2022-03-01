@@ -4,7 +4,6 @@
     "description": "Proyecto electiva",
     "main": "app.js",
     "scripts": {
-        "start": "node .",
         "test": "jest",
         "test:watch": "jest --watchAll"
     },
