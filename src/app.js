@@ -14,10 +14,10 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // MySql
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'rootpass',
-    database: 'node20_mysql'
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'bab936b04b8d87',
+    password: '16f90428',
+    database: 'heroku_f077bfacb522f8f'
   });
 
 //Definir el entutamiento de las solicitudes
