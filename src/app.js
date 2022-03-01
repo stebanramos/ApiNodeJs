@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // MySql
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
   host: 'us-cdbr-east-05.cleardb.net',
   user: 'bab936b04b8d87',
   password: '16f90428',
