@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
-const mongoose = require("mongoose");
+const mysql = require('mysql');
+const PORT = process.env.PORT || 3050;
 const app = express();
 
 //Configuracion
@@ -9,17 +10,15 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 //Definir el puerto por el cual vamos a escuchar
-app.listen(3000, () =>{
-    console.log("servidor up");
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-mongoose.connect('mongodb://127.0.0.1:27017/DBAppNodeJs', function(err, res){
-    if(err){
-        console.log('ERROR: connecting to database. ' + err);
-    }else{
-        console.log('Conectado a MongoDB');
-    }
-});
+// MySql
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'rootpass',
+    database: 'node20_mysql'
+  });
 
 //Definir el entutamiento de las solicitudes
 var controladorPersona = require('./controladores/personaControlador.js')
