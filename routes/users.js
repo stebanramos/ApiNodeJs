@@ -104,7 +104,7 @@ router.post('/Authentication', function(request, response) {
 			// If the account exists
 			if (results.length > 0) {
 				// Authenticate the user
-				response.sed('ok');
+				response.send('ok');
 			} else {
 				response.send('Incorrect Username and/or Password!');
 			}			
