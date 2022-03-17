@@ -67,6 +67,8 @@ router.put('/UpdateUser/:id', (request, response) => {
 
   let requestBody = [first_name, last_name, email, id];
 
+  console.log(id);
+
   pool.query('UPDATE users SET first_name=?, last_name=?, email=? WHERE user_id = ?', requestBody, (error, result) => {
       
     if (error) {
