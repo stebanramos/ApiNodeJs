@@ -17,9 +17,10 @@ router.get('/FindAllUsers', function (request, response, next) {
 });
 
 // Display a single user by ID
-router.get('/FindUser/:id', (request, response) => {
+router.get('/FindUser', (request, response) => {
 
-  const id = request.params.id;
+  //const id = request.params.id;
+  const id = 2;
 
   console.log('SELECT * FROM users WHERE user_id=' + id);
 
