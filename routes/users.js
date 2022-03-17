@@ -21,9 +21,13 @@ router.get('/FindUser/:id', (request, response) => {
 
   const id = request.params.id;
 
+<<<<<<< HEAD
   console.log('SELECT * FROM users WHERE user_id=' + id);
 
   pool.query('SELECT * FROM users WHERE user_id=?', id, (error, result) => {
+=======
+  pool.query('SELECT * FROM users WHERE user_id = ?', id, (error, result) => {
+>>>>>>> 106cee2c52aaba9e1e977129a672e5c0a661946d
 
     if (error) {
       response.send(error);
