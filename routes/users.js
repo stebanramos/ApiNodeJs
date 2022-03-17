@@ -17,10 +17,10 @@ router.get('/FindAllUsers', function (request, response, next) {
 });
 
 // Display a single user by ID
-router.get('/FindUser', (request, response) => {
+router.get('/FindUser/:id', (request, response) => {
 
-  //const id = request.params.id;
-  const id = 2;
+  const id = request.params.id;
+  //const id = 2;
 
   console.log('SELECT * FROM users WHERE user_id=' + id);
 
@@ -85,7 +85,7 @@ router.put('/UpdateUser/:id', (request, response) => {
 router.delete('/DeleteUser/:id', (request, response) => {
   const id = request.params.id;
 
-  pool.query('DELETE FROM users WHERE id = ?', id, (error, result) => {
+  pool.query('DELETE FROM users WHERE user_id = ?', id, (error, result) => {
       
     if (error) {
       response.send(error);
